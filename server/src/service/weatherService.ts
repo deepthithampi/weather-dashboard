@@ -73,11 +73,16 @@ class WeatherService {
       throw new Error("Invalid weather data format");
     }
     //console.log(response);
+    const currentWeatherData = response.list[0];
     const currentWeather = new Weather(
-      response.main.temp,
-      response.main.humidity,
-      response.wind.speed,
-      response.weather[0].description
+      // response.list[0].main.temp,
+      // response.list[0].main.humidity,
+      // response.list[0].wind.speed,
+      // response.weather[0].description
+      currentWeatherData.main.temp,         
+    currentWeatherData.main.humidity,
+    currentWeatherData.wind.speed,        
+    currentWeatherData.weather[0].description  
     );
     console.log("Curretn weather",currentWeather);
     return currentWeather;
@@ -109,7 +114,9 @@ class WeatherService {
     //const weatherQuery = this.buildWeatherQuery(coordinates);
     const weatherData = await this.fetchWeatherData(coordinates);
     console.log("Weather data response inside getWeatherForCity WeratherService.ts :", weatherData);
-    console.log("getWeaterForCity - weather.current ",weatherData.current);
+  //  const now = new Date();
+  //  const testWeather = weatherData.filter(evnt => new Date(evnt.dt_txt)==now);
+    console.log("getWeaterForCity - weather.current ",weatherData.list[0].main.humidity);
     const currentWeather = this.parseCurrentWeather(weatherData.current);
     console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
