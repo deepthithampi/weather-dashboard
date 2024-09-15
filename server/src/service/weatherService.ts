@@ -119,7 +119,7 @@ class WeatherService {
     console.log("getWeaterForCity - weather.current ",weatherData.list[0].main.humidity);
     const currentWeather = this.parseCurrentWeather(weatherData.list[0]);
     console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
-    const forecastArray = this.buildForecastArray(currentWeather, weatherData.list[0]);
+    const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
     console.log("getWeatherForCity - forecastArray() ",forecastArray);
     return forecastArray;
 
