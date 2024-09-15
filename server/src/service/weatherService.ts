@@ -92,6 +92,7 @@ class WeatherService {
         entry.weather[0].description
       );
     });
+    console.log("Inside WeatherService buildForeCastArray ",currentWeather);
     console.log("Forcasr Array weather",forecastArray);
     return [currentWeather, ...forecastArray];
    }
@@ -108,7 +109,7 @@ class WeatherService {
 
     //const weatherQuery = this.buildWeatherQuery(coordinates);
     const weatherData = await this.fetchWeatherData(coordinates);
-    console.log("Weather data response:", weatherData);
+    console.log("Weather data response inside getWeatherForCity WeratherService.ts :", weatherData);
     const currentWeather = this.parseCurrentWeather(weatherData.current);
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
     return forecastArray;
