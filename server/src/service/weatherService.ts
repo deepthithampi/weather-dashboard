@@ -106,12 +106,14 @@ class WeatherService {
    //const locationQuery = this.buildGeocodeQuery(city);
    // const locationData = await this.fetchLocationData(locationQuery);
     // const coordinates = this.destructureLocationData(locationData.coord);
-
     //const weatherQuery = this.buildWeatherQuery(coordinates);
     const weatherData = await this.fetchWeatherData(coordinates);
     console.log("Weather data response inside getWeatherForCity WeratherService.ts :", weatherData);
+    console.log("getWeaterForCity - weather.current ",weatherData.current);
     const currentWeather = this.parseCurrentWeather(weatherData.current);
+    console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
+    console.log("getWeatherForCity - forecastArray() ",forecastArray);
     return forecastArray;
 
 }
