@@ -1,4 +1,12 @@
 import { promises as fs } from 'fs'; 
+
+//
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+//
+
 // TODO: Define a City class with name and id properties
 class City {  
   name: string;
@@ -11,7 +19,8 @@ class City {
 
 // TODO: Complete the HistoryService class
 class HistoryService {
-  private filePath = '../db/searchHistory.json';
+  //private filePath = '../db/searchHistory.json';
+  private filePath = path.join(__dirname, '../db/searchHistory.json');
   // TODO: Define a read method that reads from the searchHistory.json file
   private async read() {
     try{
