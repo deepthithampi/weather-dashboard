@@ -69,20 +69,24 @@ class WeatherService {
   // TODO: Build parseCurrentWeather method
    private parseCurrentWeather(response: any) {
     console.log("Weather API Response (inside parseCurrentWeather):", response);
-    if (!response || !response.main) {
+    // if (!response || !response.main) {
+    //   throw new Error("Invalid weather data format");
+    // }
+    if (!response || !response.list || !response.list[0].main) {
       throw new Error("Invalid weather data format");
     }
+  
     //console.log(response);
-    const currentWeatherData = response.list[0];
+   // const currentWeatherData = response.list[0];
     const currentWeather = new Weather(
-      // response.list[0].main.temp,
-      // response.list[0].main.humidity,
-      // response.list[0].wind.speed,
-      // response.weather[0].description
-      currentWeatherData.main.temp,         
-    currentWeatherData.main.humidity,
-    currentWeatherData.wind.speed,        
-    currentWeatherData.weather[0].description  
+      response.temp,
+      response.humidity,
+      response.speed,
+      response.weather[0].description
+    //   currentWeatherData.main.temp,         
+    // currentWeatherData.main.humidity,
+    // currentWeatherData.wind.speed,        
+    // currentWeatherData.weather[0].description  
     );
     console.log("Curretn weather",currentWeather);
     return currentWeather;
@@ -113,11 +117,10 @@ class WeatherService {
     // const coordinates = this.destructureLocationData(locationData.coord);
     //const weatherQuery = this.buildWeatherQuery(coordinates);
     const weatherData = await this.fetchWeatherData(coordinates);
-    console.log("Weather data response inside getWeatherForCity WeratherService.ts :", weatherData);
-  //  const now = new Date();
-  //  const testWeather = weatherData.filter(evnt => new Date(evnt.dt_txt)==now);
+    //console.log("Weather data response inside getWeatherForCity WeratherService.ts :", weatherData);
+
     console.log("getWeaterForCity - weather.current ",weatherData.list[0].main.humidity);
-    const currentWeather = this.parseCurrentWeather(weatherData.current);
+    const currentWeather = this.parseCurrentWeather(weatherData.list[0].main);
     console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
     console.log("getWeatherForCity - forecastArray() ",forecastArray);
