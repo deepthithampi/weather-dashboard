@@ -109,10 +109,7 @@ class WeatherService {
     console.log(city);
 
     const coordinates = await this.fetchAndDestructureLocationData(city);
-   //const locationQuery = this.buildGeocodeQuery(city);
-   // const locationData = await this.fetchLocationData(locationQuery);
-    // const coordinates = this.destructureLocationData(locationData.coord);
-    //const weatherQuery = this.buildWeatherQuery(coordinates);
+   
     const weatherData = await this.fetchWeatherData(coordinates);   
     //console.log("Weather data response inside getWeatherForCity WeratherService.ts :", weatherData);
 

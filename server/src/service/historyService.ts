@@ -13,7 +13,7 @@ class City {
 
 // TODO: Complete the HistoryService class
 class HistoryService {
-  private filePath = '../db/searchHistory.json'; 
+  private filePath = 'db/searchHistory.json';  //'../db/searchHistory.json'; 
   
   // TODO: Define a read method that reads from the searchHistory.json file
   private async read() {
