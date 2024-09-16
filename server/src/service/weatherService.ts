@@ -12,16 +12,24 @@ class Weather {
   
   constructor(
     public city:string,
+    public date:Date,
+    public icon:string,
+    public weatherDescription: string,
     public temperature: number,
-    public humidity: number,
     public windSpeed: number,
-    public weatherDescription: string
+    public humidity: number
+    
+    
   ) {
     this.city = city;
-    this.temperature = temperature;
-    this.humidity = humidity;
-    this.windSpeed = windSpeed;
+    this.date = date;
+    this.icon = icon;
     this.weatherDescription = weatherDescription;
+    this.temperature = temperature;
+    this.windSpeed = windSpeed;
+    this.humidity = humidity;
+    
+    
   }
 }
 // TODO: Complete the WeatherService class
@@ -48,8 +56,8 @@ class WeatherService {
   // TODO: Create buildGeocodeQuery method
    private buildGeocodeQuery(city : string): string {
    this.city = city;
-    const query = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${this.API_KEY}`;
-    console.log("Value retured from API : ",query);
+    //const query = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${this.API_KEY}`;
+    //console.log("Value retured from API : ",query);
     return `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${this.API_KEY}`;
    }
   // TODO: Create buildWeatherQuery method
@@ -63,7 +71,7 @@ class WeatherService {
     const locationQuery = this.buildGeocodeQuery(city);
     //console.log(locationQuery);
     const locationData = await this.fetchLocationData(locationQuery);
-     console.log("LLLLOOOCCCAAATT ",locationData);
+    // console.log("LLLLOOOCCCAAATT ",locationData);
     return this.destructureLocationData(locationData.coord);
    }
   // TODO: Create fetchWeatherData method
@@ -73,63 +81,72 @@ class WeatherService {
     return await this.fetchLocationData(weatherQuery);
    }
   // TODO: Build parseCurrentWeather method
-   private parseCurrentWeather(response: any) {
-    console.log("Weather API Response (inside parseCurrentWeather):", response);
+   private parseCurrentWeather(response: any,cityName : string) {
+    //console.log("Weather API Response (inside parseCurrentWeather):", response);
     if (!response || !response.main) {
       throw new Error("Invalid weather data format");
     }
-   
+    // Extract necessary data from the response
+  const city = cityName;//response.name;
+  const date = new Date(response.dt * 1000); 
+  const icon = response.weather[0].icon;
+  const temperature = response.main.temp;
+  const humidity = response.main.humidity;
+  const windSpeed = response.wind.speed;
+  const weatherDescription = response.weather[0].description;
     //console.log("Response from ParseCurrentWeather -> ",response);
    // const currentWeatherData = response.list[0];
     const currentWeather = new Weather(
-      response.city,
-      response.temp,
-      response.humidity,
-      response.speed,
-      response.weather[0].description
-    //   currentWeatherData.main.temp,         
-    // currentWeatherData.main.humidity,
-    // currentWeatherData.wind.speed,        
-    // currentWeatherData.weather[0].description  
+      city,
+      date,
+      icon,
+      weatherDescription,
+      temperature,
+      windSpeed,
+      humidity
+     
     );
-    console.log("Curretn weather - ParseCurrentWeather",currentWeather);
+    //console.log("Curretn weather - ParseCurrentWeather",currentWeather);
     return currentWeather;
    }
   // TODO: Complete buildForecastArray method
    private buildForecastArray(currentWeather: Weather, weatherData: any[]) {
     const forecastArray = weatherData.map((entry) => {
       return new Weather(
-        entry.city,
+        this.city,
+        new Date(entry.dt * 1000),
+        entry.weather[0].icon,
+        entry.weather[0].description,
         entry.main.temp,
-        entry.main.humidity,
         entry.wind.speed,
-        entry.weather[0].description
+        entry.main.humidity
+        
       );
     });
-    console.log("Inside WeatherService buildForeCastArray ",currentWeather);
-    console.log("Forcasr Array weather - buildForecastArray",forecastArray);
-    console.log("Current Weather - buildForecastArray ",currentWeather);
+    //console.log("Inside WeatherService buildForeCastArray ",currentWeather);
+    //console.log("Forcasr Array weather - buildForecastArray",forecastArray);
+    //console.log("Current Weather - buildForecastArray ",currentWeather);
     return [currentWeather, ...forecastArray];
    }
   // TODO: Complete getWeatherForCity method
    async getWeatherForCity(city: string) {
    
     this.city = city;
-    console.log(city);
+   // console.log(city);
 
     const coordinates = await this.fetchAndDestructureLocationData(city);
    
     const weatherData = await this.fetchWeatherData(coordinates);   
-    console.log("AAAAAAAAAAAAAAA Weather data response inside getWeatherForCity  :", weatherData);
+    // console.log("AAAAAAAAAAAAAAA Weather data response inside getWeatherForCity  :", weatherData.list[0]);
 
     //console.log("getWeaterForCity - weather.current Humidity ",weatherData.list[0].main.humidity);
-    const currentWeather = this.parseCurrentWeather(weatherData.list[0]);
+    const currentWeather = this.parseCurrentWeather(weatherData.list[0],city);
 
-    // console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
+     //console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
 
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
 
-     console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
+    console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
     return forecastArray;
 
 }
