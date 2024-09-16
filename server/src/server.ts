@@ -15,7 +15,9 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // TODO: Serve static files of entire client dist folder
+
  app.use(express.static('../../client/dist'));
+
 //app.use(express.static('../../../client/dist'));
 // app.use(express.static(path.join(__dirname, '../client/dist')));
 
@@ -30,4 +32,4 @@ app.use(express.urlencoded({ extended: true }));
 app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
 
 
-console.log(`API_BASE_URL: ${process.env.API_BASE_URL}, API_KEY: ${process.env.API_KEY}`);
+//console.log(`API_BASE_URL: ${process.env.API_BASE_URL}, API_KEY: ${process.env.API_KEY}`);

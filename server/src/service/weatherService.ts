@@ -146,7 +146,7 @@ class WeatherService {
 
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
 
-    console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
+    //console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
     return forecastArray;
 
 }

@@ -13,8 +13,8 @@ router.post('/', async (req, res) => {
   try{
   
     const weatherData = await WeatherService.getWeatherForCity(city);
-   //const weatherDataJSON = await weatherData.json();
-    console.log("Weather data response: from Weather Routes", weatherData);
+
+    // console.log("Weather data response: from Weather Routes", weatherData);
     // TODO: save city to search history
     if(weatherData){
       await HistoryService.addCity(city);
@@ -48,6 +48,7 @@ catch(err){
 });
 
 // * BONUS TODO: DELETE city from search history
+
 router.delete('/history/:id', async (req, res) => {
   try{
     const id = req.params.id;
