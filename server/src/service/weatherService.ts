@@ -145,9 +145,9 @@ class WeatherService {
      //console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
 
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
-
+    //const forecasts = weatherData.list.slice(1).map((item: any) => parseForecast(item));
     //console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
-    return forecastArray;
+    return [currentWeather,forecastArray];
 
 }
 }
