@@ -71,6 +71,7 @@ class WeatherService {
     const locationQuery = this.buildGeocodeQuery(city);
     //console.log(locationQuery);
     const locationData = await this.fetchLocationData(locationQuery);
+    this.city = locationData.name;
     // console.log("LLLLOOOCCCAAATT ",locationData);
     return this.destructureLocationData(locationData.coord);
    }
@@ -81,13 +82,13 @@ class WeatherService {
     return await this.fetchLocationData(weatherQuery);
    }
   // TODO: Build parseCurrentWeather method
-   private parseCurrentWeather(response: any,cityName : string) {
+   private parseCurrentWeather(response: any) {
     //console.log("Weather API Response (inside parseCurrentWeather):", response);
     if (!response || !response.main) {
       throw new Error("Invalid weather data format");
     }
     // Extract necessary data from the response
-  const city = cityName;//response.name;
+  //const city = response.name;//cityName;
   const date = new Date(response.dt * 1000); 
   const icon = response.weather[0].icon;
   const temperature = response.main.temp;
@@ -97,7 +98,7 @@ class WeatherService {
     //console.log("Response from ParseCurrentWeather -> ",response);
    // const currentWeatherData = response.list[0];
     const currentWeather = new Weather(
-      city,
+      this.city,
       date,
       icon,
       weatherDescription,
@@ -140,9 +141,9 @@ class WeatherService {
     // console.log("AAAAAAAAAAAAAAA Weather data response inside getWeatherForCity  :", weatherData.list[0]);
 
     //console.log("getWeaterForCity - weather.current Humidity ",weatherData.list[0].main.humidity);
-    const currentWeather = this.parseCurrentWeather(weatherData.list[0],city);
+    const currentWeather = this.parseCurrentWeather(weatherData.list[0]);//,city);
 
-     //console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
+     console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
 
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
     //const forecasts = weatherData.list.slice(1).map((item: any) => parseForecast(item));
