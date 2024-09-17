@@ -163,8 +163,11 @@ class WeatherService {
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
     
     //console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
-    return [forecastArray];
-
+    return [currentWeather,...forecastArray];
+    // return {
+    //   currentWeather: this.parseCurrentWeather(currentWeather), // Parse current weather
+    //   forecast: forecastArray, // Already structured by buildForecastArray
+    // };
 }
 }
 export default new WeatherService();
