@@ -160,14 +160,17 @@ class WeatherService {
 
      console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
 
-    const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
+     // Filter forecast data to include only one entry per day at 12:00 PM
+  const fiveDayForecast = weatherData.list.filter((entry: any) => {
+    const date = new Date(entry.dt * 1000);
+    return date.getHours() === 12; // Filter entries that are at 12:00 PM
+  }).slice(0, 5); 
+ console.log("fffffiiiiiiivvvvvveeeee",fiveDayForecast.list);
+    const forecastArray = this.buildForecastArray(currentWeather,weatherData.list);
     
     //console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
     return [currentWeather,...forecastArray];
-    // return {
-    //   currentWeather: this.parseCurrentWeather(currentWeather), // Parse current weather
-    //   forecast: forecastArray, // Already structured by buildForecastArray
-    // };
+   
 }
 }
 export default new WeatherService();

@@ -13,8 +13,8 @@ router.post('/', async (req, res) => {
   try{
   
     const weatherData = await WeatherService.getWeatherForCity(city);
-
-    // console.log("Weather data response: from Weather Routes", weatherData);
+    //weatherData.filter(d)
+     //console.log("Weather data response: from Weather Routes", weatherData);
 
     // TODO: save city to search history
     if(weatherData){
@@ -35,10 +35,7 @@ router.post('/', async (req, res) => {
 router.get('/history', async (_req, res) => {
   try{
   const searchHistory = await HistoryService.getCities();
-  res.json({
-    message : "Search history retrieved successfully",
-    history : searchHistory
-}); }
+  res.json(searchHistory); }
 catch(err){
   console.log(err);
   res.status(500).json({ message: "Server error" });
