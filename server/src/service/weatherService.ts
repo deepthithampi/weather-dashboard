@@ -128,15 +128,16 @@ class WeatherService {
   // TODO: Complete buildForecastArray method
    private buildForecastArray(currentWeather: Weather, weatherData: any[]) {
     const forecastArray = weatherData.map((entry) => {
-      const temperature = ((entry.main.temp - 273.15) * 9/5 + 32).toFixed(2);
+      console.log("Entry.MAIN.TEMP=====> ",entry.main.temp);
+      //const temperature = ((entry.main.temp - 273.15) * 9/5 + 32).toFixed(2);
       //temperature.toFixed(2)
-      console.log("TTTTTTEMPERATURE...",temperature);
+      //console.log("TTTTTTEMPERATURE...",temperature);
       return new Weather(
         this.city,
         new Date(entry.dt * 1000).toLocaleDateString()||'0',
         entry.weather[0].icon,
         entry.weather[0].description,
-       temperature,
+        entry.main.temp,//temperature,
         entry.wind.speed,
         entry.main.humidity
         
@@ -167,14 +168,26 @@ class WeatherService {
      
      // Filter forecast data 
   const fiveDayForecast = weatherData.list.filter((entry: any) => {
-    
     const date = new Date(entry.dt * 1000);
     //console.log("Date",date.toLocaleDateString());
     const hours = date.getHours();
     return hours >= 9 && hours <= 10;//return date.getHours() === 12;
   }).slice(0, 4); 
- console.log("fffffiiiiiiivvvvvveeeee",fiveDayForecast);
-    const forecastArray = this.buildForecastArray(currentWeather,fiveDayForecast);//weatherData.list);
+  const convertedForecast = fiveDayForecast.map((entry: any) => {
+    const tempK = entry.main.temp; // Temperature in Kelvin
+    const tempF = ((tempK - 273.15) * 1.8 + 32).toFixed(2); // Convert to Fahrenheit and round to 2 decimals
+    console.log("Weather data entry:", tempF);
+    return {
+      ...entry,
+      main: {
+        ...entry.main,
+        temp: tempF // Replace the temperature with Fahrenheit rounded to 2 decimals
+      
+      }
+    };
+  });
+ console.log("fffffiiiiiiivvvvvveeeee",convertedForecast)//fiveDayForecast);
+    const forecastArray = this.buildForecastArray(currentWeather,convertedForecast)//fiveDayForecast);//weatherData.list);
     
     //console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
     return [currentWeather,...forecastArray];
