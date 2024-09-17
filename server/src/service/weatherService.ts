@@ -102,7 +102,7 @@ class WeatherService {
   //const city = response.name;//cityName;
   const date = new Date(response.dt * 1000).toLocaleDateString()||'0'; 
   const icon = response.weather[0].icon;
-  const temperature = response.main.temp;
+  const temperature = (response.main.temp - 273.15) * 9/5 + 32;
   const humidity = response.main.humidity;
   const windSpeed = response.wind.speed;
   const weatherDescription = response.weather[0].description;
@@ -126,12 +126,14 @@ class WeatherService {
   // TODO: Complete buildForecastArray method
    private buildForecastArray(currentWeather: Weather, weatherData: any[]) {
     const forecastArray = weatherData.map((entry) => {
+      const temperature = (entry.main.temp - 273.15) * 9/5 + 32;
+      console.log("TTTTTTEMPERATURE...",temperature);
       return new Weather(
         this.city,
         new Date(entry.dt * 1000).toLocaleDateString()||'0',
         entry.weather[0].icon,
         entry.weather[0].description,
-        entry.main.temp,
+       temperature,
         entry.wind.speed,
         entry.main.humidity
         
@@ -163,10 +165,12 @@ class WeatherService {
      // Filter forecast data to include only one entry per day at 12:00 PM
   const fiveDayForecast = weatherData.list.filter((entry: any) => {
     const date = new Date(entry.dt * 1000);
-    return date.getHours() === 12; // Filter entries that are at 12:00 PM
+    //console.log("Date",date.toLocaleDateString());
+    const hours = date.getHours();
+    return hours >= 9 && hours <= 15;//return date.getHours() === 12; // Filter entries that are at 12:00 PM
   }).slice(0, 5); 
- console.log("fffffiiiiiiivvvvvveeeee",fiveDayForecast.list);
-    const forecastArray = this.buildForecastArray(currentWeather,weatherData.list);
+ console.log("fffffiiiiiiivvvvvveeeee",fiveDayForecast);
+    const forecastArray = this.buildForecastArray(currentWeather,fiveDayForecast);//weatherData.list);
     
     //console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
     return [currentWeather,...forecastArray];
