@@ -15,7 +15,7 @@ class Weather {
     public date:string,
     public icon:string,
     public weatherDescription: string,
-    public temperature: number,
+    public temperature: string,
     public windSpeed: number,
     public humidity: number
     
@@ -102,7 +102,9 @@ class WeatherService {
   //const city = response.name;//cityName;
   const date = new Date(response.dt * 1000).toLocaleDateString()||'0'; 
   const icon = response.weather[0].icon;
-  const temperature = (response.main.temp - 273.15) * 9/5 + 32;
+  const temperature = ((response.main.temp - 273.15) * 9/5 + 32);
+  let temp = temperature.toFixed(2)
+  console.log("TTEEEMMMMMPPPPP.....",temperature)
   const humidity = response.main.humidity;
   const windSpeed = response.wind.speed;
   const weatherDescription = response.weather[0].description;
@@ -113,7 +115,7 @@ class WeatherService {
       date,
       icon,
       weatherDescription,
-      temperature,
+      temp,//temperature,
       windSpeed,
       humidity
      
@@ -126,7 +128,8 @@ class WeatherService {
   // TODO: Complete buildForecastArray method
    private buildForecastArray(currentWeather: Weather, weatherData: any[]) {
     const forecastArray = weatherData.map((entry) => {
-      const temperature = (entry.main.temp - 273.15) * 9/5 + 32;
+      const temperature = ((entry.main.temp - 273.15) * 9/5 + 32).toFixed(2);
+      //temperature.toFixed(2)
       console.log("TTTTTTEMPERATURE...",temperature);
       return new Weather(
         this.city,
@@ -161,14 +164,15 @@ class WeatherService {
     const currentWeather = this.parseCurrentWeather(weatherData.list[0]);//,city);
 
      console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
-
-     // Filter forecast data to include only one entry per day at 12:00 PM
+     
+     // Filter forecast data 
   const fiveDayForecast = weatherData.list.filter((entry: any) => {
+    
     const date = new Date(entry.dt * 1000);
     //console.log("Date",date.toLocaleDateString());
     const hours = date.getHours();
-    return hours >= 9 && hours <= 15;//return date.getHours() === 12; // Filter entries that are at 12:00 PM
-  }).slice(0, 5); 
+    return hours >= 9 && hours <= 10;//return date.getHours() === 12;
+  }).slice(0, 4); 
  console.log("fffffiiiiiiivvvvvveeeee",fiveDayForecast);
     const forecastArray = this.buildForecastArray(currentWeather,fiveDayForecast);//weatherData.list);
     
