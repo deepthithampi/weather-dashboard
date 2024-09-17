@@ -7,15 +7,25 @@ interface Coordinates {
   lon: number;
 }
 
+interface IWeather {
+   city:string;
+   date:string;
+   icon:string;
+   weatherDescription: string;
+   temperature: number;
+   windSpeed: number;
+    humidity: number;
+}
+
 // TODO: Define a class for the Weather object
-class Weather {
+class Weather implements IWeather{
   
   constructor(
     public city:string,
     public date:string,
     public icon:string,
     public weatherDescription: string,
-    public temperature: string,
+    public temperature: number,
     public windSpeed: number,
     public humidity: number
     
@@ -103,8 +113,9 @@ class WeatherService {
   const date = new Date(response.dt * 1000).toLocaleDateString()||'0'; 
   const icon = response.weather[0].icon;
   const temperature = ((response.main.temp - 273.15) * 9/5 + 32);
-  let temp = temperature.toFixed(2)
-  console.log("TTEEEMMMMMPPPPP.....",temperature)
+  let temp = temperature.toFixed(2);
+  let tempF : number = +temp;
+  console.log("TTEEEMMMMMPPPPP.....",tempF)
   const humidity = response.main.humidity;
   const windSpeed = response.wind.speed;
   const weatherDescription = response.weather[0].description;
@@ -115,7 +126,7 @@ class WeatherService {
       date,
       icon,
       weatherDescription,
-      temp,//temperature,
+      tempF,//temperature,
       windSpeed,
       humidity
      

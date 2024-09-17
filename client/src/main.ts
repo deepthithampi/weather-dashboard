@@ -77,15 +77,12 @@ Render Functions
 */
 
 const renderCurrentWeather = (currentWeather: any): void => {
+  console.log("Current Weather Object:", currentWeather); 
   const { city, date, icon, iconDescription, tempF, windSpeed, humidity } =
     currentWeather;
-  //   let temperature;
-  //   if(tempF!=undefined){
-  //    temperature = tempF.toFixed(2)
-  // }else{
-  //   temperature = 'N/A'
-  // }
+    console.log("Temperature from nested object:",currentWeather.temp );
   console.log("Current Weather from Client",currentWeather);
+  
   // convert the following to typescript
   heading.textContent = `${city} (${date})`;
   weatherIcon.setAttribute(
@@ -95,10 +92,13 @@ const renderCurrentWeather = (currentWeather: any): void => {
   weatherIcon.setAttribute('alt', iconDescription);
   weatherIcon.setAttribute('class', 'weather-img');
   heading.append(weatherIcon);
-  tempEl.textContent = `Temp: ${tempF}°F`;
-  console.log(tempF);
+  tempEl.textContent = `Temp: ${tempF} °F`;
+  console.log("Temperature in client ",tempF);
+  
   windEl.textContent = `Wind: ${windSpeed} MPH`;
+  console.log("Wind in client ",windSpeed);
   humidityEl.textContent = `Humidity: ${humidity} %`;
+  console.log("Humidity in client ",humidity);
 
   if (todayContainer) {
     todayContainer.innerHTML = '';
@@ -129,7 +129,7 @@ const renderForecastCard = (forecast: any) => {
 
   const { col, cardTitle, weatherIcon, tempEl, windEl, humidityEl } =
     createForecastCard();
-
+console.log("Temp ",tempF)
   // Add content to elements
   cardTitle.textContent = date;
   weatherIcon.setAttribute(
