@@ -19,7 +19,6 @@ class Weather {
     public windSpeed: number,
     public humidity: number
     
-    
   ) {
     this.city = city;
     this.date = date;
@@ -28,7 +27,6 @@ class Weather {
     this.temperature = temperature;
     this.windSpeed = windSpeed;
     this.humidity = humidity;
-    
     
   }
 }
@@ -144,7 +142,7 @@ class WeatherService {
     //console.log("Current Weather - buildForecastArray ",currentWeather);
     return [currentWeather, ...forecastArray];
    }
-   
+
 
   // TODO: Complete getWeatherForCity method
    async getWeatherForCity(city: string) {
@@ -163,7 +161,7 @@ class WeatherService {
      console.log("WeatherService.ts - getWeatherforCity - currentWeather ",currentWeather);
 
     const forecastArray = this.buildForecastArray(currentWeather, weatherData.list);
-    //const forecasts = weatherData.list.slice(1).map((item: any) => parseForecast(item));
+    
     //console.log("FFFFFFFFFFFFFFFFF getWeatherForCity - forecastArray() ",forecastArray);
     return [forecastArray];
 

@@ -15,13 +15,11 @@ router.post('/', async (req, res) => {
     const weatherData = await WeatherService.getWeatherForCity(city);
 
     // console.log("Weather data response: from Weather Routes", weatherData);
+    
     // TODO: save city to search history
     if(weatherData){
       await HistoryService.addCity(city);
-      res.json({
-        message : "Weather data retrieved successfully",
-        data : weatherData
-      });
+      res.json(weatherData);
     }else{
       res.json({ 
         message : "Weather data not found"
