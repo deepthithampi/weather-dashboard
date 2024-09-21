@@ -182,7 +182,7 @@ class WeatherService {
     const date = new Date(entry.dt * 1000);
     //console.log("Date",date.toLocaleDateString());
     const hours = date.getHours();
-    return hours >= 9 && hours <= 10;//return date.getHours() === 12;
+    return hours >= 9 && hours <= 14; //return date.getHours() === 12;
   }).slice(0, 4); 
   const convertedForecast = fiveDayForecast.map((entry: any) => {
     const tempK = entry.main.temp; // Temperature in Kelvin
