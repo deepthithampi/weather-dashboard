@@ -78,7 +78,7 @@ Render Functions
 
 const renderCurrentWeather = (currentWeather: any): void => {
   console.log("Current Weather Object:", currentWeather); 
-  const { city, date, icon, iconDescription, tempF, windSpeed, humidity } =
+  const { city, date, icon, iconDescription, temperature, windSpeed, humidity } =
     currentWeather;
     console.log("Temperature from nested object:",currentWeather.temp );
   console.log("Current Weather from Client",currentWeather);
@@ -92,8 +92,8 @@ const renderCurrentWeather = (currentWeather: any): void => {
   weatherIcon.setAttribute('alt', iconDescription);
   weatherIcon.setAttribute('class', 'weather-img');
   heading.append(weatherIcon);
-  tempEl.textContent = `Temp: ${tempF} °F`;
-  console.log("Temperature in client ",tempF);
+  tempEl.textContent = `Temp: ${temperature} °F`;
+  console.log("Temperature in client ",temperature);
   
   windEl.textContent = `Wind: ${windSpeed} MPH`;
   console.log("Wind in client ",windSpeed);
@@ -125,11 +125,11 @@ const renderForecast = (forecast: any): void => {
 };
 
 const renderForecastCard = (forecast: any) => {
-  const { date, icon, iconDescription, tempF, windSpeed, humidity } = forecast;
+  const { date, icon, iconDescription, temperature, windSpeed, humidity } = forecast;
 
   const { col, cardTitle, weatherIcon, tempEl, windEl, humidityEl } =
     createForecastCard();
-console.log("Temp ",tempF)
+console.log("Temp ",temperature)
   // Add content to elements
   cardTitle.textContent = date;
   weatherIcon.setAttribute(
@@ -137,7 +137,7 @@ console.log("Temp ",tempF)
     `https://openweathermap.org/img/w/${icon}.png`
   );
   weatherIcon.setAttribute('alt', iconDescription);
-  tempEl.textContent = `Temp: ${tempF} °F`;
+  tempEl.textContent = `Temp: ${temperature} °F`;
   windEl.textContent = `Wind: ${windSpeed} MPH`;
   humidityEl.textContent = `Humidity: ${humidity} %`;
 
